@@ -11,10 +11,16 @@ import java.io.File;
 public class CCLog
 {
     /**
+     * 默认打印的tag
+     */
+    /**
      * 打印的信息为null的时候显示的提示信息
      */
     private static final String PARAM = "Param";
     private static final String NULL = "null";
+    /**
+     * 默认打印的Tag
+     */
     private static final String TAG_DEFAULT = "CCLog";
     private static final String SUFFIX = ".java";
 
@@ -354,7 +360,8 @@ public class CCLog
         //执行的方法的名称
         String methodNameShort = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
         //设置打印的时候打印的Tag
-        String tag = (tagStr == null ? className : tagStr);
+        String tag = (tagStr == null ? className: tagStr);
+//        String tag = (tagStr == null ? (IS_SHOW_CLASS_NAME?className:TAG): tagStr);
         if (mIsGlobalTagEmpty && TextUtils.isEmpty(tag))
         {
             tag = TAG_DEFAULT;

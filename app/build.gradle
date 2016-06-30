@@ -1,3 +1,16 @@
+//使用AspectJ添加的引用
+import org.aspectj.bridge.MessageHandler
+import org.aspectj.tools.ajc.Main
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.aspectj:aspectjtools:1.8.1'
+    }
+}
+
+
 apply plugin: 'com.android.application'
 
 android {
@@ -29,4 +42,26 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:24.0.0'
+    //使用AspectJ时，需要引用下边的代码
+    compile project(':ccbase')
+    //compile 'org.aspectj:aspectjrt:1.8.1'
+}
+
+//使用AspectJ需要添加一下的配置信息
+final def variants = project.android.applicationVariants
+variants.all
+{ variant ->
+    JavaCompile javaCompile = variant.javaCompile
+    javaCompile.doLast
+    {
+        String[] args = ["-showWeaveInfo",
+                         "-1.5",
+                         "-inpath", javaCompile.destinationDir.toString(),
+                         "-aspectpath", javaCompile.classpath.asPath,
+                         "-d", javaCompile.destinationDir.toString(),
+                         "-classpath", javaCompile.classpath.asPath,
+                         "-bootclasspath", project.android.bootClasspath.join(File.pathSeparator)]
+        MessageHandler handler = new MessageHandler(true);
+        new Main().run(args, handler);
+    }
 }

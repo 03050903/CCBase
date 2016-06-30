@@ -1,4 +1,4 @@
-package com.cc.base;
+package com.cc.test;
 
 import android.content.Context;
 import android.view.View;
@@ -47,7 +47,7 @@ public class MainAdapter extends BaseAdapter
         ViewHolder viewHolder;
         if (view==null)
         {
-            view=View.inflate(context,R.layout.item_log,null);
+            view=View.inflate(context, R.layout.item_log,null);
             viewHolder=new ViewHolder();
             viewHolder.nameTextView= (TextView) view.findViewById(R.id.tv_name);
             view.setTag(viewHolder);
